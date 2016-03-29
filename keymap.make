@@ -23,7 +23,6 @@
 .SUFFIXES:
 MAKEFLAGS += -r
 SHELL := /bin/bash
-ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ### keymap options
 #
