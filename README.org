@@ -61,8 +61,16 @@ human.fa:
 ***** Retrieve list of next key components for a given prefix with =keymap_key_list=:
 
 #+BEGIN_EXAMPLE
+define process_dataset
+# ${1} = dataset
+# ${2} = reference
+...
+endef
 # ds = human_1 human_2 ecoli_1
-$(foreach ds,$(call keymap_key_list,dataset),$(call process_dataset,${ds}))
+# ref = human human ecoli
+$(foreach ds,$(call keymap_key_list,dataset),\
+$(foreach ref,$(call keymap_val,dataset|${ds}|reference),\
+$(eval $(call process_dataset,${ds},${ref}))))
 #+END_EXAMPLE
 
 **** Influential Variables
