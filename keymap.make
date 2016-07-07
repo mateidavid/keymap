@@ -50,7 +50,8 @@ KEYMAP_SEPARATOR = |
 endif
 
 # load keymap
-cat_keymap_file := "cat ${KEYMAP_FILES} | egrep -v \"^ *($$|\#)\""
+cat_keymap_file := "cat ${KEYMAP_FILES} | egrep -v \"^ *($$|\#)\" | awk '{if (sub(/\\\\$$/,\"\")) printf \"%s\", \$$0; else print}'"
+lines := $(shell eval ${cat_keymap_file})
 $(foreach i,$(shell seq 1 $(shell eval ${cat_keymap_file} | wc -l)),\
 $(eval $(shell eval ${cat_keymap_file} | awk -v prefix="${KEYMAP_PREFIX}${KEYMAP_SEPARATOR}" 'NR==${i} { key=$$1; for(i=2;i<=NF;++i) $$(i-1)=$$i; NF-=1; print prefix key " := " $$0}')))
 
@@ -79,7 +80,7 @@ keymap_val = $(${KEYMAP_PREFIX}${KEYMAP_SEPARATOR}${1})
 keymap_key_list = $($(if ${1},${KEYMAP_PREFIX}${KEYMAP_SEPARATOR}${1}${KEYMAP_SEPARATOR},${KEYMAP_PREFIX}${KEYMAP_SEPARATOR}))
 
 print-%:
-	@echo '$* = $($*)'
+	@echo '$* = $(subst ','\'',${$*})'
 
 # e.g.,
 # print-${KEYMAP_PREFIX}${KEYMAP_SEPARATOR}

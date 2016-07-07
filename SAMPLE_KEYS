@@ -1,9 +1,14 @@
 program_option|opt_1          --fast
 program_option|opt_2          --very --accurate
+program_option|opt_3 \
+  --multi \
+  --line
+
 reference|human|url           ftp://example.com/human.fa.gz
 reference|human|md5sum        012345
 reference|ecoli|url           ftp://example.com/ecoli.fa.gz
 reference|human|md5sum        012345
+
 dataset|human_1|url           ftp://example.com/human_1.tar.gz
 dataset|human_1|md5sum        012345
 dataset|human_1|reference     human
